@@ -1,0 +1,62 @@
+@model List<PharmacyManager.Models.Medicine>
+@{
+    ViewData["Title"] = "Inventory";
+}
+
+<div class="page-header">
+    <h2>Medicine Inventory</h2>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ Add Medicine</a>
+        <a href="@Url.Action("ExportToExcel")" class="btn btn-secondary">Export to Excel</a>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Manufacturer</th>
+            <th>Batch No</th>
+            <th>Expiry</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var med in Model)
+        {
+            <tr class="@(med.StockQuantity < 50 ? "row-warning" : "")">
+                <td>@med.Name</td>
+                <td>@med.Category</td>
+                <td>@med.Manufacturer</td>
+                <td>@med.BatchNumber</td>
+                <td>@med.ExpiryDate.ToString("dd MMM yyyy")</td>
+                <td>
+                    @if (med.StockQuantity < 50)
+                    {
+                        <span class="badge badge-warning">@med.StockQuantity</span>
+                    }
+                    else
+                    {
+                        @med.StockQuantity
+                    }
+                </td>
+                <td>@med.UnitPrice.ToString("C2")</td>
+                <td class="action-cell">
+                    <a href="@Url.Action("Details", new { id = med.MedicineId })" class="btn btn-sm">View</a>
+                    <a href="@Url.Action("Edit", new { id = med.MedicineId })" class="btn btn-sm btn-edit">Edit</a>
+                    <a href="@Url.Action("Delete", new { id = med.MedicineId })" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

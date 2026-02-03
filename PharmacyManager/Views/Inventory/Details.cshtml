@@ -1,0 +1,57 @@
+@model PharmacyManager.Models.Medicine
+@{
+    ViewData["Title"] = "Medicine Details";
+}
+
+<div class="page-header">
+    <h2>Medicine Details</h2>
+</div>
+
+<div class="detail-card">
+    <div class="detail-row">
+        <span class="detail-label">Name</span>
+        <span class="detail-value">@Model.Name</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Category</span>
+        <span class="detail-value">@Model.Category</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Manufacturer</span>
+        <span class="detail-value">@Model.Manufacturer</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Batch Number</span>
+        <span class="detail-value">@Model.BatchNumber</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Expiry Date</span>
+        <span class="detail-value">@Model.ExpiryDate.ToString("dd MMM yyyy")</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Stock Quantity</span>
+        <span class="detail-value">
+            @if (Model.StockQuantity < 50)
+            {
+                <span class="badge badge-warning">@Model.StockQuantity (Low)</span>
+            }
+            else
+            {
+                @Model.StockQuantity
+            }
+        </span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Unit Price</span>
+        <span class="detail-value">@Model.UnitPrice.ToString("C2")</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Description</span>
+        <span class="detail-value">@Model.Description</span>
+    </div>
+</div>
+
+<div class="form-actions">
+    <a href="@Url.Action("Edit", new { id = Model.MedicineId })" class="btn btn-primary">Edit</a>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Back to List</a>
+</div>

@@ -1,0 +1,77 @@
+﻿@model PharmacyManager.Models.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="dashboard-container">
+
+
+    <div class="dashboard-welcome card shadow">
+        <h2>Welcome, @Model.FullName</h2>
+        <p>Pharmacy Inventory & Billing System</p>
+    </div>
+
+  
+    <div class="dashboard-stats row">
+        <div class="stat-card col">
+            <div class="stat-number">@Model.TotalMedicines</div>
+            <div class="stat-label">Total Medicines</div>
+        </div>
+        <div class="stat-card col low-stock">
+            <div class="stat-number">@Model.LowStockCount</div>
+            <div class="stat-label">Low Stock Items</div>
+        </div>
+        <div class="stat-card col invoices">
+            <div class="stat-number">@Model.TotalInvoices</div>
+            <div class="stat-label">Total Invoices</div>
+        </div>
+    </div>
+
+
+    <div class="dashboard-actions row">
+        <a href="@Url.Action("Index", "Inventory")" class="action-card col">
+            <span class="action-icon">📦</span>
+            <span class="action-text">Manage Inventory</span>
+        </a>
+        <a href="@Url.Action("Create", "Billing")" class="action-card col">
+            <span class="action-icon">&#128203;</span>
+            <span class="action-text">New Invoice</span>
+        </a>
+        <a href="@Url.Action("Index", "Billing")" class="action-card col">
+            <span class="action-icon">&#128196;</span>
+            <span class="action-text">View Invoices</span>
+        </a>
+    </div>
+
+    @if (Model.RecentSales.Any())
+    {
+        <div class="recent-invoices card shadow">
+            <h3>Recent Invoices</h3>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Date</th>
+                        <th>Customer</th>
+                        <th>Grand Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var sale in Model.RecentSales)
+                    {
+                        <tr>
+                            <td>@sale.InvoiceNumber</td>
+                            <td>@sale.InvoiceDate.ToString("dd MMM yyyy")</td>
+                            <td>@sale.CustomerName</td>
+                            <td>@sale.GrandTotal.ToString("C2")</td>
+                            <td>
+                                <a href="@Url.Action("Details", "Billing", new { id = sale.SalesId })" class="btn btn-sm btn-primary">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

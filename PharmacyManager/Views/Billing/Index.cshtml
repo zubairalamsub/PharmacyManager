@@ -1,0 +1,52 @@
+@model List<PharmacyManager.Models.SalesMaster>
+@{
+    ViewData["Title"] = "Invoices";
+}
+
+<div class="page-header">
+    <h2>Invoices</h2>
+    <div class="page-header-actions">
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ New Invoice</a>
+    </div>
+</div>
+
+@if (Model.Count == 0)
+{
+    <div class="empty-state">
+        <p>No invoices found. Create your first invoice to get started.</p>
+    </div>
+}
+else
+{
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Invoice #</th>
+                <th>Date</th>
+                <th>Customer</th>
+                <th>Contact</th>
+                <th>Sub Total</th>
+                <th>Discount</th>
+                <th>Grand Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in Model)
+            {
+                <tr>
+                    <td>@invoice.InvoiceNumber</td>
+                    <td>@invoice.InvoiceDate.ToString("dd MMM yyyy")</td>
+                    <td>@invoice.CustomerName</td>
+                    <td>@invoice.ContactNumber</td>
+                    <td>@invoice.SubTotal.ToString("C2")</td>
+                    <td>@invoice.Discount.ToString("C2")</td>
+                    <td><strong>@invoice.GrandTotal.ToString("C2")</strong></td>
+                    <td>
+                        <a href="@Url.Action("Details", new { id = invoice.SalesId })" class="btn btn-sm">View Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

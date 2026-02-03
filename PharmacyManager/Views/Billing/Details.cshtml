@@ -1,0 +1,80 @@
+@model PharmacyManager.Models.InvoiceDetailViewModel
+@{
+    ViewData["Title"] = "Invoice Details";
+}
+
+<div class="page-header">
+    <h2>Invoice Details</h2>
+</div>
+
+<div class="section-box">
+    <h3>Invoice #@Model.Invoice.InvoiceNumber</h3>
+    <div class="detail-grid">
+        <div class="detail-row">
+            <span class="detail-label">Date</span>
+            <span class="detail-value">@Model.Invoice.InvoiceDate.ToString("dd MMM yyyy")</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Customer</span>
+            <span class="detail-value">@Model.Invoice.CustomerName</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Contact</span>
+            <span class="detail-value">@Model.Invoice.ContactNumber</span>
+        </div>
+    </div>
+</div>
+
+<div class="section-box">
+    <h3>Items</h3>
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Medicine</th>
+                <th>Batch No</th>
+                <th>Expiry</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Line Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int sn = 1; }
+            @foreach (var item in Model.Details)
+            {
+                <tr>
+                    <td>@sn</td>
+                    <td>@(item.Medicine != null ? item.Medicine.Name : "N/A")</td>
+                    <td>@item.BatchNumber</td>
+                    <td>@item.ExpiryDate.ToString("dd MMM yyyy")</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice.ToString("C2")</td>
+                    <td>@item.LineTotal.ToString("C2")</td>
+                </tr>
+                sn++;
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="section-box totals-section">
+    <div class="totals-grid">
+        <div class="total-row">
+            <span class="total-label">Sub Total:</span>
+            <span class="total-value">@Model.Invoice.SubTotal.ToString("C2")</span>
+        </div>
+        <div class="total-row">
+            <span class="total-label">Discount:</span>
+            <span class="total-value">@Model.Invoice.Discount.ToString("C2")</span>
+        </div>
+        <div class="total-row total-row-grand">
+            <span class="total-label">Grand Total:</span>
+            <span class="total-value">@Model.Invoice.GrandTotal.ToString("C2")</span>
+        </div>
+    </div>
+</div>
+
+<div class="form-actions">
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Back to Invoices</a>
+</div>

@@ -1,0 +1,41 @@
+@{
+    var username = Context.Session.GetString("Username");
+    var fullName = Context.Session.GetString("FullName");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pharmacy Manager</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    @if (username != null)
+    {
+        <header class="site-header">
+            <nav class="nav-container">
+                <a class="site-brand" asp-controller="Home" asp-action="Index">Pharmacy Manager</a>
+                <ul class="nav-links">
+                    <li><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                    <li><a asp-controller="Inventory" asp-action="Index">Inventory</a></li>
+                    <li><a asp-controller="Billing" asp-action="Index">Invoices</a></li>
+                    <li><a asp-controller="Billing" asp-action="Create">New Invoice</a></li>
+                    <li><a asp-controller="Account" asp-action="Logout" class="nav-logout">Logout (@fullName)</a></li>
+                </ul>
+            </nav>
+        </header>
+    }
+
+    <div class="main-content">
+        @RenderBody()
+    </div>
+
+    <footer class="site-footer">
+        &copy; @DateTime.Now.Year Pharmacy Manager
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
